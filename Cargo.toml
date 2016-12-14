@@ -2,9 +2,11 @@
 name = "vulcan-test"
 version = "0.1.0"
 authors = ["Cooper EdenDay <cooperedenday@protonmail.com>"]
+build = "build.rs"
 
 [dependencies]
 vulkano = { path = "/usr/local/bin/vulkano/vulkano" }
+vulkano-win = { path = "/usr/local/bin/vulkano/vulkano-win" }
 cgmath = "0.12.0"
 image = "0.6.1"
 winit = "0.5.2"
