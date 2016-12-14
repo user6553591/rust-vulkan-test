@@ -1,0 +1,6 @@
+[package]
+name = "vulcan-test"
+version = "0.1.0"
+authors = ["Cooper EdenDay <cooperedenday@protonmail.com>"]
+
+[dependencies]
