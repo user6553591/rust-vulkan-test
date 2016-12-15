@@ -177,7 +177,7 @@ fn main() {
     let command_buffers = framebuffers.iter().map(|framebuffer| {
         vulkano::command_buffer::PrimaryCommandBufferBuilder::new(&device, queue.family())
             .draw_inline(&renderpass, &framebuffer, renderpass::ClearValues {
-                 color: [0.0, 0.0, 1.0, 1.0],
+                 color: [0.25, 0.25, 0.25, 1.0],
                  depth: 1.0,
              })
             .draw_indexed(&pipeline, (&vertex_buffer, &normals_buffer), &index_buffer,
