@@ -7,6 +7,7 @@
 // notice may not be copied, modified, or distributed except
 // according to those terms.
 
+extern crate vulcan_test;
 extern crate cgmath;
 extern crate winit;
 extern crate time;
@@ -19,10 +20,9 @@ use vulkano_win::VkSurfaceBuild;
 
 use std::sync::Arc;
 use std::time::Duration;
-mod lib;
 
-mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/src/vs.glsl")} }
-mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/src/fs.glsl")} }
+mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/src/bin/vs.glsl")} }
+mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/src/bin/fs.glsl")} }
 
 fn main() {
     // The start of this example is exactly the same as `triangle`. You should read the
@@ -69,15 +69,15 @@ fn main() {
     let depth_buffer = vulkano::image::attachment::AttachmentImage::transient(&device, images[0].dimensions(), vulkano::format::D16Unorm).unwrap();
 
     let vertex_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer
-                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), lib::VERTICES.iter().cloned())
+                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vulcan_test::VERTICES.iter().cloned())
                                 .expect("failed to create buffer");
 
     let normals_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer
-                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), lib::NORMALS.iter().cloned())
+                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vulcan_test::NORMALS.iter().cloned())
                                 .expect("failed to create buffer");
 
     let index_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer
-                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), lib::INDICES.iter().cloned())
+                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vulcan_test::INDICES.iter().cloned())
                                 .expect("failed to create buffer");
 
     // note: this teapot was meant for OpenGL where the origin is at the lower left
