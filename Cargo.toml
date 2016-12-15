@@ -5,13 +5,13 @@ authors = ["Cooper EdenDay <cooperedenday@protonmail.com>"]
 build = "build.rs"
 
 [dependencies]
-vulkano = { path = "/usr/local/bin/vulkano/vulkano" }
-vulkano-win = { path = "/usr/local/bin/vulkano/vulkano-win" }
-cgmath = "0.12.0"
-image = "0.6.1"
-winit = "0.5.2"
-time = "0.1.35"
+vulkano = "*"
+vulkano-win = "*"
+cgmath = "*"
+image = "*"
+winit = "*"
+time = "*"
 
 [build-dependencies]
-vk-sys = { path = "/usr/local/bin/vulkano/vk-sys" }
-vulkano-shaders = { path = "/usr/local/bin/vulkano/vulkano-shaders" }
+vk-sys = "*"
+vulkano-shaders = "*"
