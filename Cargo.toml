@@ -11,7 +11,11 @@ cgmath = "*"
 image = "*"
 winit = "*"
 time = "*"
+toml = "*"
 
 [build-dependencies]
 vk-sys = "*"
 vulkano-shaders = "*"
+
+[profile.release]
+lto = true
