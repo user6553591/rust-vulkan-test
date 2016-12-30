@@ -11,7 +11,6 @@ extern crate cgmath;
 extern crate winit;
 extern crate time;
 extern crate obj;
-extern crate genmesh;
 
 #[macro_use]
 extern crate vulkano;
@@ -67,14 +66,14 @@ fn main() {
     let obj_filepath = std::io::BufReader::new(std::fs::File::open("assets/models/suzanne.obj").unwrap());
     let input_obj: obj::Obj = obj::load_obj(obj_filepath).unwrap();
 
-    #[derive(Copy, Clone, Debug)]
+    #[derive(Copy, Clone)]
     pub struct Vertex {
         position: [f32; 3]
     }
     impl_vertex!(Vertex, position);
     let mut vertices: Vec<Vertex> = Vec::new();
 
-    #[derive(Copy, Clone, Debug)]
+    #[derive(Copy, Clone)]
     pub struct Normal {
         normal: [f32; 3]
     }
@@ -105,13 +104,12 @@ fn main() {
     //       instead the origin is at the upper left in vulkan, so we reverse the Y axis
     let proj = cgmath::perspective(cgmath::Rad(std::f32::consts::FRAC_PI_2), { let d = images[0].dimensions(); d[0] as f32 / d[1] as f32 }, 0.01, 100.0);
     let view = cgmath::Matrix4::look_at(cgmath::Point3::new(0.0, 0.0, 5.0), cgmath::Point3::new(0.0, 0.0, 0.0), cgmath::Vector3::new(0.0, -1.0, 0.0));
-    let scale = cgmath::Matrix4::from_scale(1.0);
 
     let uniform_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer::<vs::ty::Data>
                                ::from_data(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()),
                                 vs::ty::Data {
                                     world : <cgmath::Matrix4<f32> as cgmath::SquareMatrix>::identity().into(),
-                                    view : (view * scale).into(),
+                                    view : (view).into(),
                                     proj : proj.into(),
                                 })
                                .expect("failed to create buffer");

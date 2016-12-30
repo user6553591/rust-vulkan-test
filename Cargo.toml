@@ -13,7 +13,6 @@ winit = "*"
 time = "*"
 toml = "*"
 obj-rs = "*"
-genmesh = "*"
 
 [build-dependencies]
 vk-sys = "*"
