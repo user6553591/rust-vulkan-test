@@ -7,10 +7,11 @@
 // notice may not be copied, modified, or distributed except
 // according to those terms.
 
-extern crate vulcan_test;
 extern crate cgmath;
 extern crate winit;
 extern crate time;
+extern crate obj;
+extern crate genmesh;
 
 #[macro_use]
 extern crate vulkano;
@@ -18,11 +19,15 @@ extern crate vulkano_win;
 
 use vulkano_win::VkSurfaceBuild;
 
+use std::fs::File;
+use std::io::BufReader;
+use obj::*;
+
 use std::sync::Arc;
 use std::time::Duration;
 
-mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/src/bin/vs.glsl")} }
-mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/src/bin/fs.glsl")} }
+mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/src/vs.glsl")} }
+mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/src/fs.glsl")} }
 
 fn main() {
     // The start of this example is exactly the same as `triangle`. You should read the
@@ -66,18 +71,41 @@ fn main() {
     };
 
 
+    let input = BufReader::new(File::open("assets/torus.obj").unwrap());
+    let cube: Obj = load_obj(input).unwrap();
+
+    #[derive(Copy, Clone, Debug)]
+    pub struct Vertex {
+        position: [f32; 3]
+    }
+    impl_vertex!(Vertex, position);
+    let mut vertices: Vec<Vertex> = Vec::new();
+
+    #[derive(Copy, Clone, Debug)]
+    pub struct Normal {
+        normal: [f32; 3]
+    }
+    impl_vertex!(Normal, normal);
+    let mut normals: Vec<Normal> = Vec::new();
+    for index in cube.vertices {
+        vertices.append(&mut vec!(Vertex {position: index.position}));
+        normals.append(&mut vec!(Normal {normal: index.normal}));
+    }
+
+    let indices: Vec<u16> = cube.indices;
+
     let depth_buffer = vulkano::image::attachment::AttachmentImage::transient(&device, images[0].dimensions(), vulkano::format::D16Unorm).unwrap();
 
     let vertex_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer
-                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vulcan_test::VERTICES.iter().cloned())
+                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vertices.iter().cloned())
                                 .expect("failed to create buffer");
 
     let normals_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer
-                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vulcan_test::NORMALS.iter().cloned())
+                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), normals.iter().cloned())
                                 .expect("failed to create buffer");
 
     let index_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer
-                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), vulcan_test::INDICES.iter().cloned())
+                                ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), indices.iter().cloned())
                                 .expect("failed to create buffer");
 
     // note: this teapot was meant for OpenGL where the origin is at the lower left
