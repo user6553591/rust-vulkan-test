@@ -19,13 +19,6 @@ extern crate vulkano_win;
 
 use vulkano_win::VkSurfaceBuild;
 
-use std::fs::File;
-use std::io::BufReader;
-use obj::*;
-
-use std::sync::Arc;
-use std::time::Duration;
-
 mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/shaders/vs.glsl")} }
 mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/shaders/fs.glsl")} }
 
@@ -71,8 +64,8 @@ fn main() {
     };
 
 
-    let obj_filepath = BufReader::new(File::open("assets/models/suzanne.obj").unwrap());
-    let input_obj: Obj = load_obj(obj_filepath).unwrap();
+    let obj_filepath = std::io::BufReader::new(std::fs::File::open("assets/models/suzanne.obj").unwrap());
+    let input_obj: obj::Obj = obj::load_obj(obj_filepath).unwrap();
 
     #[derive(Copy, Clone, Debug)]
     pub struct Vertex {
@@ -214,7 +207,7 @@ fn main() {
             .build()
     }).collect::<Vec<_>>();
 
-    let mut submissions: Vec<Arc<vulkano::command_buffer::Submission>> = Vec::new();
+    let mut submissions: Vec<std::sync::Arc<vulkano::command_buffer::Submission>> = Vec::new();
 
 
     loop {
@@ -222,7 +215,7 @@ fn main() {
 
         {
             // aquiring write lock for the uniform buffer
-            let mut buffer_content = uniform_buffer.write(Duration::new(1, 0)).unwrap();
+            let mut buffer_content = uniform_buffer.write(std::time::Duration::new(1, 0)).unwrap();
 
             let rotation = cgmath::Matrix3::from_angle_y(cgmath::Rad(time::precise_time_ns() as f32 * 0.000000001));
 
@@ -231,7 +224,7 @@ fn main() {
             buffer_content.world = cgmath::Matrix4::from(rotation).into();
         }
 
-        let image_num = swapchain.acquire_next_image(Duration::from_millis(1)).unwrap();
+        let image_num = swapchain.acquire_next_image(std::time::Duration::from_millis(1)).unwrap();
         submissions.push(vulkano::command_buffer::submit(&command_buffers[image_num], &queue).unwrap());
         swapchain.present(&queue, image_num).unwrap();
 
