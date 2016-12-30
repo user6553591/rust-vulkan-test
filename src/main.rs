@@ -71,7 +71,7 @@ fn main() {
     };
 
 
-    let obj_filepath = BufReader::new(File::open("assets/models/torus.obj").unwrap());
+    let obj_filepath = BufReader::new(File::open("assets/models/suzanne.obj").unwrap());
     let input_obj: Obj = load_obj(obj_filepath).unwrap();
 
     #[derive(Copy, Clone, Debug)]
