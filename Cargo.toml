@@ -1,0 +1,23 @@
+[package]
+name = "vulcan-test"
+version = "0.1.0"
+authors = ["user6553591"]
+build = "build.rs"
+
+[dependencies]
+vulkano = "*"
+vulkano-win = "*"
+cgmath = "*"
+image = "*"
+winit = "*"
+time = "*"
+toml = "*"
+obj-rs = "*"
+genmesh = "*"
+
+[build-dependencies]
+vk-sys = "*"
+vulkano-shaders = "*"
+
+[profile.release]
+lto = true
