@@ -71,8 +71,8 @@ fn main() {
     };
 
 
-    let input = BufReader::new(File::open("assets/torus.obj").unwrap());
-    let cube: Obj = load_obj(input).unwrap();
+    let obj_filepath = BufReader::new(File::open("assets/torus.obj").unwrap());
+    let input_obj: Obj = load_obj(obj_filepath).unwrap();
 
     #[derive(Copy, Clone, Debug)]
     pub struct Vertex {
@@ -87,12 +87,12 @@ fn main() {
     }
     impl_vertex!(Normal, normal);
     let mut normals: Vec<Normal> = Vec::new();
-    for index in cube.vertices {
-        vertices.append(&mut vec!(Vertex {position: index.position}));
-        normals.append(&mut vec!(Normal {normal: index.normal}));
+    for input_vertex in input_obj.vertices {
+        vertices.append(&mut vec!(Vertex {position: input_vertex.position}));
+        normals.append(&mut vec!(Normal {normal: input_vertex.normal}));
     }
 
-    let indices: Vec<u16> = cube.indices;
+    let indices: Vec<u16> = input_obj.indices;
 
     let depth_buffer = vulkano::image::attachment::AttachmentImage::transient(&device, images[0].dimensions(), vulkano::format::D16Unorm).unwrap();
 
