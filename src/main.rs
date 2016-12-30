@@ -26,8 +26,8 @@ use obj::*;
 use std::sync::Arc;
 use std::time::Duration;
 
-mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/src/vs.glsl")} }
-mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/src/fs.glsl")} }
+mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/shaders/vs.glsl")} }
+mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/shaders/fs.glsl")} }
 
 fn main() {
     // The start of this example is exactly the same as `triangle`. You should read the
@@ -71,7 +71,7 @@ fn main() {
     };
 
 
-    let obj_filepath = BufReader::new(File::open("assets/torus.obj").unwrap());
+    let obj_filepath = BufReader::new(File::open("assets/models/torus.obj").unwrap());
     let input_obj: Obj = load_obj(obj_filepath).unwrap();
 
     #[derive(Copy, Clone, Debug)]
