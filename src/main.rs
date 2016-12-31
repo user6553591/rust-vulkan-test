@@ -100,10 +100,8 @@ fn main() {
                                 ::from_iter(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()), indices.iter().cloned())
                                 .expect("failed to create buffer");
 
-    // note: this teapot was meant for OpenGL where the origin is at the lower left
-    //       instead the origin is at the upper left in vulkan, so we reverse the Y axis
     let proj = cgmath::perspective(cgmath::Rad(std::f32::consts::FRAC_PI_2), { let d = images[0].dimensions(); d[0] as f32 / d[1] as f32 }, 0.01, 100.0);
-    let view = cgmath::Matrix4::look_at(cgmath::Point3::new(0.0, 0.0, 5.0), cgmath::Point3::new(0.0, 0.0, 0.0), cgmath::Vector3::new(0.0, -1.0, 0.0));
+    let view = cgmath::Matrix4::look_at(cgmath::Point3::new(0.0, 0.0, 5.0), cgmath::Point3::new(0.0, 0.0, 0.0), cgmath::Vector3::new(0.0, 1.0, 0.0));
 
     let uniform_buffer = vulkano::buffer::cpu_access::CpuAccessibleBuffer::<vs::ty::Data>
                                ::from_data(&device, &vulkano::buffer::BufferUsage::all(), Some(queue.family()),
