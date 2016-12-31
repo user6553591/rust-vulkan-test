@@ -1,0 +1,20 @@
+Foward:			-Z
+Up:			-Y
+Selection Only:		NO
+Animation:		NO
+Apply Modifiers:	YES
+Include Edges:		NO
+Smooth Groups:		NO
+Bitflag Smooth Groups:	NO
+Write Normals:		YES
+Include UVs:		NO
+Write Materials:	NO
+Triangulate Faces:	YES
+Write Nurbs:		NO
+Polygroups:		NO
+Objects as OBJ Objects:	YES
+Objects as OBJ Groups:	NO
+Material Groups:	NO
+Keep Vertex Order:	NO
+Scale:			1.00
+Path Mode:		Auto
