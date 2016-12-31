@@ -1,6 +1,6 @@
 [package]
 name = "vulcan-test"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["user6553591"]
 build = "build.rs"
 

@@ -18,8 +18,8 @@ extern crate vulkano_win;
 
 use vulkano_win::VkSurfaceBuild;
 
-mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/shaders/vs.glsl")} }
-mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/shaders/fs.glsl")} }
+mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/build/shaders/vs.glsl")} }
+mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/build/shaders/fs.glsl")} }
 
 fn main() {
     // The start of this example is exactly the same as `triangle`. You should read the
