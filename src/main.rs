@@ -22,6 +22,11 @@ mod vs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/build/shaders/vs.gls
 mod fs { include!{concat!(env!("OUT_DIR"), "/shaders/assets/build/shaders/fs.glsl")} }
 
 fn main() {
+    // FPS variables.
+    let mut frame_number: u64 = 0;
+    let mut last_frame_number: u64 = 0;
+    let mut last_nanosecond: u64 = 0;
+
     // The start of this example is exactly the same as `triangle`. You should read the
     // `triangle` example if you haven't done so yet.
 
@@ -212,6 +217,12 @@ fn main() {
         {
             // aquiring write lock for the uniform buffer
             let mut buffer_content = uniform_buffer.write(std::time::Duration::new(1, 0)).unwrap();
+            if time::precise_time_ns() > last_nanosecond + 1000000000 {
+                last_nanosecond = time::precise_time_ns();
+                println!("{} FPS.", frame_number - last_frame_number);
+                last_frame_number = frame_number;
+            }
+            frame_number += 1;
 
             let rotation = cgmath::Matrix3::from_angle_y(cgmath::Rad(time::precise_time_ns() as f32 * 0.000000001));
 
