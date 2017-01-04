@@ -234,7 +234,7 @@ fn main() {
             buffer_content.world = cgmath::Matrix4::from(rotation).into();
         }
 
-        let image_num = swapchain.acquire_next_image(std::time::Duration::from_millis(1)).unwrap();
+        let image_num = swapchain.acquire_next_image(std::time::Duration::from_millis(66)).unwrap();
         submissions.push(vulkano::command_buffer::submit(&command_buffers[image_num], &queue).unwrap());
         swapchain.present(&queue, image_num).unwrap();
 

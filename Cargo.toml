@@ -1,6 +1,6 @@
 [package]
 name = "vulcan-test"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["user6553591 <https://www.reddit.com/message/compose/?to=user6553591>"]
 build = "build.rs"
 
