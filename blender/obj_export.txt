@@ -1,4 +1,4 @@
-Foward:			-Z
+Foward:			Z
 Up:			-Y
 Selection Only:		NO
 Animation:		NO
