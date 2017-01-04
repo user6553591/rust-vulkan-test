@@ -25,7 +25,8 @@ fn main() {
     // FPS variables.
     let mut frame_number: u64 = 0;
     let mut last_frame_number: u64 = 0;
-    let mut last_nanosecond: u64 = 0;
+    let mut last_nanosecond: u64 = time::precise_time_ns();
+    let mut fps: Vec<u64> = Vec::new();
 
     // The start of this example is exactly the same as `triangle`. You should read the
     // `triangle` example if you haven't done so yet.
@@ -211,7 +212,8 @@ fn main() {
     let mut submissions: Vec<std::sync::Arc<vulkano::command_buffer::Submission>> = Vec::new();
 
 
-    loop {
+    let mut done = false;
+    while !done {
         submissions.retain(|s| s.destroying_would_block());
 
         {
@@ -219,7 +221,8 @@ fn main() {
             let mut buffer_content = uniform_buffer.write(std::time::Duration::new(1, 0)).unwrap();
             if time::precise_time_ns() > last_nanosecond + 1000000000 {
                 last_nanosecond = time::precise_time_ns();
-                println!("{} FPS.", frame_number - last_frame_number);
+                fps.append(&mut vec!(frame_number - last_frame_number));
+                println!("FPS {}", fps[fps.len() - 1]);
                 last_frame_number = frame_number;
             }
             frame_number += 1;
@@ -237,9 +240,15 @@ fn main() {
 
         for ev in window.window().poll_events() {
             match ev {
-                winit::Event::Closed => return,
+                winit::Event::Closed => done = true,
                 _ => ()
             }
         }
     }
+    let length: u64 = fps.len() as u64;
+    let mut accumulator: u64 = 0;
+    for sample in fps {
+        accumulator += sample;
+    }
+    println!("Mean FPS: {}", accumulator / length);
 }
